@@ -1,0 +1,35 @@
+body {
+  font-family: sans-serif;
+  font-size: 20px;
+}
+.container {
+  width: 40%;
+}
+
+.container-row {
+  box-shadow: 5px 5px 5px 5px rgb(231, 229, 229);
+}
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 6px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  background-color: #f1f3f4;
+}
+
+.btn-symbol,
+.btn-total {
+  background-color: black;
+  color: white;
+}
+
+.results {
+  font-weight: bold;
+  font-size: 18px;
+}
