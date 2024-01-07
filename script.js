@@ -1,13 +1,12 @@
 const buttons = document.querySelectorAll("button");
 const input = document.getElementById("input-form");
-const operators = document.querySelectorAll(".btn-operator");
 const resultsEl = document.getElementById("results");
 const clearAll = document.getElementById("clear-all");
 const deleteBtn = document.getElementById("delete-btn");
 let firstNumber = 0;
 let secondNumber = 0;
 let result = 0;
-let storedOperator = "";
+let operator = "";
 let calculationPerformed = false;
 
 buttons.forEach((button) => {
@@ -18,13 +17,13 @@ buttons.forEach((button) => {
 
     if (!isNaN(buttonValue) || buttonValue === ".") {
       input.value += buttonValue;
-      if (storedOperator === "") {
+      if (operator === "") {
         firstNumber = parseFloat(input.value);
       } else {
         secondNumber = parseFloat(input.value);
       }
     } else if (button.classList.contains("btn-operator")) {
-      storedOperator = buttonValue;
+      operator = buttonValue;
       input.value = "";
     } else if (button.classList.contains("btn-total")) {
       calculate();
@@ -35,24 +34,24 @@ buttons.forEach((button) => {
 
 function calculate() {
   input.value = "";
-  if (storedOperator === "+") {
+  if (operator === "+") {
     result = firstNumber + secondNumber;
-  } else if (storedOperator === "-") {
+  } else if (operator === "-") {
     result = firstNumber - secondNumber;
-  } else if (storedOperator === "/") {
+  } else if (operator === "/") {
     result = firstNumber / secondNumber;
-  } else if (storedOperator === "*") {
+  } else if (operator === "*") {
     result = firstNumber * secondNumber;
-  } else if (storedOperator === "%") {
+  } else if (operator === "%") {
     const percentage = secondNumber / 100;
     result = firstNumber * percentage;
   }
 
   input.value = result;
-  resultsEl.innerHTML = `${firstNumber} ${storedOperator} ${secondNumber} = ${result}`;
+  resultsEl.innerHTML = `${firstNumber} ${operator} ${secondNumber} = ${result}`;
   firstNumber = result;
   secondNumber = 0;
-  storedOperator = "";
+  operator = "";
 }
 
 function clearAllValues() {
@@ -60,7 +59,7 @@ function clearAllValues() {
   resultsEl.innerHTML = "";
   firstNumber = 0;
   secondNumber = 0;
-  storedOperator = "";
+  operator = "";
   calculationPerformed = false;
 }
 
