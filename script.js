@@ -9,31 +9,40 @@ let result = 0;
 let operator = "";
 let calculationPerformed = false;
 
+// Add event listeners to buttons
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const buttonValue = event.target.innerText;
-    let inputValue = input.value + buttonValue;
-    resultsEl.innerHTML = inputValue;
 
+    // Check if the value of button not a number or decimal point
     if (!isNaN(buttonValue) || buttonValue === ".") {
       input.value += buttonValue;
-      if (operator === "") {
-        firstNumber = parseFloat(input.value);
-      } else {
-        secondNumber = parseFloat(input.value);
-      }
+      resultsEl.innerHTML = input.value;
     } else if (button.classList.contains("btn-operator")) {
-      operator = buttonValue;
-      input.value = "";
+      // Check if the button is an operator
+      if (operator !== "") {
+        secondNumber = parseFloat(input.value);
+        calculate(); // Perform calculation if an operator exists
+        operator = buttonValue;
+        firstNumber = result;
+        input.value = "";
+      } else {
+        operator = buttonValue;
+        firstNumber = parseFloat(input.value);
+        input.value = "";
+      }
     } else if (button.classList.contains("btn-total")) {
-      calculate();
-      calculationPerformed = true;
+      // Check if the button is for calculating total
+      if (operator !== "" && input.value !== "") {
+        secondNumber = parseFloat(input.value);
+        calculate(); // Calculate total if an operator and second number are present
+      }
     }
   });
 });
 
+// Function to calculate based on the operator selected
 function calculate() {
-  input.value = "";
   if (operator === "+") {
     result = firstNumber + secondNumber;
   } else if (operator === "-") {
@@ -48,12 +57,13 @@ function calculate() {
   }
 
   input.value = result;
-  resultsEl.innerHTML = `${firstNumber} ${operator} ${secondNumber} = ${result}`;
+  resultsEl.innerHTML = `Answer: ${result}`;
   firstNumber = result;
   secondNumber = 0;
   operator = "";
 }
 
+// Function to clear all values
 function clearAllValues() {
   input.value = "";
   resultsEl.innerHTML = "";
@@ -63,10 +73,12 @@ function clearAllValues() {
   calculationPerformed = false;
 }
 
+// Function to delete only one value/handle the delete button
 function handleDelete() {
   if (calculationPerformed) {
-    clearAllValues();
+    clearAllValues(); // If calculation is already performed, clear all values
   } else {
+    // Else clear last digit
     const currentValue = input.value;
     const newValue = currentValue.slice(0, -1);
     input.value = newValue;
